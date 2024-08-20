@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reader - Home Page</title>
+  
+</head>
+<body>
+  <h1>Reader - Home</h1>
+
+  <div class="container">
+    <h4>Articles</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Subtitle</th>
+          <th>Author</th>
+          <th>Article - Title</th>
+          <th>Creation Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% articles.forEach((article) => { %>
+          <tr>
+            <td><h3><%= settings.title %></h3></td>
+            <td><h3><%= settings.subtitle %></h3></td>
+            <td><h3><%= settings.author %></h3></td>
+            <td><h3><%= article.title %></h3></td>
+            <td><h4><%= article.creation_date %></h4></td>
+            <td>
+              <form action="/reader/article/<%= article.article_id %>" method="GET">
+                <button type="submit" class="open-button">Open</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e6fffa;
+      padding: 20px;
+      margin: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      background-color: #fff;
+      border-radius: 4px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+      padding: 20px;
+    }
+
+    h4 {
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .open-button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .open-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</body>
+</html>

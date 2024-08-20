@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Author - Home Page</title>
+</head>
+
+<body style="background-color: #e6fffa;">
+  <div class="header">
+    <h1 class="center">Author - Home</h1>
+    <a href="/author/settings" class="settings-button">Settings</a>
+  </div>
+
+  <h1><%= settings.title %></h1>
+  <h2><%= settings.subtitle %></h2>
+  <h3>Author: <%= settings.author %></h3>
+
+  <div class="container">
+    <h4>Draft Articles</h4>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Subtitle</th>
+          <th>Creation Date</th>
+          <th>Modification Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% draftArticles.forEach((article) => { %>
+          <tr>
+            <td><%= article.title %></td>
+            <td><%= article.subtitle %></td>
+            <td><%= article.creation_date %></td>
+            <td><%= article.modification_date %></td>
+            <td class="button-group">
+              <form id="deleteForm" action="/author/delete-article/<%= article.article_id %>" method="POST">
+                <button type="submit" onclick="return confirmDelete();" class="delete-button">Delete</button>
+              </form>
+              <form action="/author/edit/<%= article.article_id %>" method="GET">
+                <button type="submit">Edit</button>
+              </form>
+              <% if (article.published) { %>
+                <span>Published</span>
+              <% } else { %>
+                <form action="/author/publish/<%= article.article_id %>" method="POST">
+                  <button type="submit">Publish</button>
+                </form>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+        <tr>
+          <td class="class= button-group">
+            <form action="/author/new-draft" method="GET">
+              <button type="submit">Create new draft</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <div class="container">
+    <section id="published-articles">
+      <h4>Published Articles</h4>
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th></th>
+            <th>Subtitle</th>
+            <th></th>
+            <th>Creation Date</th>
+            <th></th>
+            <th>Modification Date</th>
+            <th></th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="published-articles-list">
+          <% publishedArticles.forEach(article => { %>
+            <tr>
+              <td><%= article.title %></td>
+              <th></th>
+              <td><%= article.subtitle %></td>
+              <th></th>
+              <td><%= article.creation_date %></td>
+              <th></th>
+              <td><%= article.modification_date %></td>
+              <th></th>
+              <td class="button-group">
+                <button class="button-group share-button" onclick="shareArticle('<%= article.article_id %>')">Share</button>
+                <form class="delete" id="deleteForm" action="/author/delete-article/<%= article.article_id %>"  method="POST">
+                  <button type="submit" onclick="return confirmDelete();" class="delete-button">Delete</button>
+                </form>
+                <button class="view-comments-button" data-article-id="<%= article.article_id %>">View Comments</button>
+              </td>
+              <th></th>
+              <td class="likes" >Likes: <%= article.likes %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <script>
+    function shareArticle(articleId) {
+      // Construct the share link using the articleId
+      const shareLink = `http://localhost:3000/reader/article/${articleId}`;
+    
+      // Display a pop-up notification with the share link
+      window.alert(`Share this article: ${shareLink}`);
+    }
+  
+    // Get all the buttons with the 'view-comments-button' class
+    const viewCommentsButtons = document.querySelectorAll('.view-comments-button');
+  
+    // Attach a click event listener to each button
+    viewCommentsButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const articleId = button.dataset.articleId;
+        window.location.href = `/author/comments/${articleId}`;
+      });
+    });
+
+    function confirmDelete() {
+      return confirm("Are you sure you want to delete this article?");
+    }
+  </script>
+
+  <style>
+    .container table {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    h1, h2, h3 {
+      text-align: center;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      background-color: #f1f1f1;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .settings-button {
+      display: inline-block;
+      padding: 8px 12px;
+      margin-right: 10px;
+      background-color: #ddd;
+      color: #333;
+      text-decoration: none;
+      border-radius: 4px;
+    }
+
+    .settings-button:hover {
+      background-color: #ccc;
+    }
+
+    .container {
+      margin: 20px;
+    }
+
+    .container h4 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .container table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .container th,
+    .container td {
+      padding: 8px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .container th {
+      font-weight: bold;
+    }
+
+    .container tr:last-child td {
+      border-bottom: none;
+    }
+
+    .container .button-group {
+      display: flex;
+      align-items: center;
+    }
+
+    .container .button-group form,
+    .container .button-group span {
+      margin-right: 5px;
+    }
+
+    .container .button-group button,
+    .container .button-group span {
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .container .button-group form button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+         .container .button-group .delete-button {
+        background-color: #ff0000;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+
+      .container .button-group .delete-button:hover {
+        background-color: #cc0000;
+      }
+
+      .container .button-group .share-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+
+      .container .button-group .view-comments-button {
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+
+      .container .likes {
+        font-size: 15px;
+        font-weight: bold;
+      }
+  </style>
+</body>
+</html>

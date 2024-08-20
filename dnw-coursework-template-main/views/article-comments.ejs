@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Author - Article Comments</title>
+ 
+</head>
+<body style="background-color: #e6fffa;">
+  <h2>Article Comments</h2>
+  
+  <% if (comments && comments.length > 0) { %>
+    <h4>Comments:</h4>
+    <ul>
+      <% comments.forEach(comment => { %>
+        <li>
+          <strong>Name:</strong> <%= comment.name %><br>
+          <strong>Comment:</strong> <%= comment.comment %><br>
+          <strong>Commented At:</strong> <%= comment.created_at %>
+        </li>
+      <% }) %>
+    </ul>
+  <% } else { %>
+    <p>No comments yet.</p>
+  <% } %>
+
+  <form action="/author/home" method="GET">
+    <button type="submit" class="open-button">Back</button>
+  </form>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    h4 {
+      margin-bottom: 10px;
+      color: #555;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      background-color: #fff;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 10px;
+    }
+
+    strong {
+      font-weight: bold;
+    }
+
+    .open-button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .open-button:hover {
+      background-color: #0056b3;
+    }
+
+    p {
+      color: #555;
+    }
+  </style>
+</body>
+</html>

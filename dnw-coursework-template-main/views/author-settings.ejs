@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Author Settings</title>
+</head>
+<body style="background-color: #e6fffa;">
+  <h1>Author Settings</h1>
+  
+  <form action="/author/update-settings" method="POST">
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" value="<%= settings.title %>">
+    
+    <label for="subtitle">Subtitle:</label>
+    <input type="text" id="subtitle" name="subtitle" value="<%= settings.subtitle %>">
+    
+    <label for="author">Author:</label>
+    <input type="text" id="author" name="author" value="<%= settings.author %>">
+    
+    <button type="submit">Save</button>
+    <button type="reset">Reset</button>
+    <form action="/author/home" method="GET">
+      <button type="submit" class="open-button">Back</button>
+    </form>
+  </form>
+
+
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+      font-weight: bold;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 4px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: #555;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 15px;
+    }
+
+    button[type="submit"] {
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #45a049;
+            padding: 10px 20px;
+    }
+
+    button[type="reset"] {
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button[type="reset"]:hover {
+      background-color: #45a049;
+            padding: 10px 20px;
+    }
+
+
+  </style>
+
+</body>
+</html>

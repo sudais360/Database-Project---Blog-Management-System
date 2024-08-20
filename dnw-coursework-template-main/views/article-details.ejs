@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reader - Article Details</title>
+</head>
+
+<body style="background-color: #e6fffa;">
+  <div class="container">
+    <h2><strong>Title:</strong> <%= article.title %></h2>
+    <h4><strong>Subtitle:</strong> <%= article.subtitle %></h4>
+    <h4><strong>Creation Date:</strong> <%= article.creation_date %></h4>
+
+    <form class="likes" id="likeForm">
+      <input type="hidden" id="articleId" value="<%= article.article_id %>">
+      <button type="submit" id="likeButton">Like (<%= article.likes %>)</button>
+    </form>
+
+    <div class="content-box" contenteditable="false">
+      <%= article.content %>
+    </div>
+
+    <form action="/reader/comment/<%= article.article_id %>" method="POST">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+      <br>
+      <label for="comment">Comment:</label>
+      <textarea id="comment" name="comment" rows="4" cols="50" required></textarea>
+      <br>
+      <button type="submit">Submit Comment</button>
+    </form>
+
+    <h3>Comments</h3>
+    <% if (comments && comments.length > 0) { %>
+      <ul>
+        <% comments.forEach(comment => { %>
+          <li>
+            <strong>Name:</strong> <%= comment.name %><br>
+            <strong>Comment:</strong> <%= comment.comment %> <br>
+            <strong>Date:</strong>  <%= new Date(comment.created_at).toLocaleString() %>
+          </li>
+        <% }) %>
+      </ul>
+    <% } else { %>
+      <p>No comments yet.</p>
+    <% } %>
+    
+    <form action="/reader/home" method="GET">
+      <button type="submit" class="open-button">Back</button>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Attach a submit event listener to the like form
+      document.getElementById('likeForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form submission
+
+        // Get the article ID from the hidden input field
+        const articleId = document.getElementById('articleId').value;
+
+        // Make an AJAX request to update the like count
+        fetch(`/reader/like/${articleId}`, {
+          method: 'POST',
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Update the like count on the page
+          const likeButton = document.getElementById('likeButton');
+          const likesCount = data.likes;
+          likeButton.textContent = `Like (${likesCount})`;
+          likeButton.disabled = true;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+      });
+    });
+  </script>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f1f1f1;
+    padding: 20px;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f1f1f1;
+    margin-bottom: 20px;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .settings-button {
+    display: inline-block;
+    padding: 8px 12px;
+    margin-right: 10px;
+    background-color: #ddd;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+
+  .settings-button:hover {
+    background-color: #ccc;
+  }
+
+  .container {
+
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  h4 {
+    color: #666;
+    margin-bottom: 20px;
+  }
+
+  .likes {
+    text-align: right;
+    margin-top: 15px; 
+    color: #999;
+  }
+
+  p {
+    margin-bottom: 20px;
+  }
+
+  form {
+    margin-top: 20px;
+
+  }
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+    color: #555;
+    font-weight: bold;
+  }
+
+  input[type="text"],
+  textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 15px;
+  }
+
+  button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    font-weight: bold;
+  }   
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  .content-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 20px;
+    min-height: 200px;
+    overflow: auto;
+    background-color: #f9f9f9;
+  }
+</style>
+</body>
+</html>

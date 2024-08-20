@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Article</title>
+</head>
+
+<body style="background-color: #e6fffa;">
+  <h1>Edit Article</h1>
+
+  <p>Creation Date: <%= new Date(article.creation_date).toLocaleString() %></p>
+  <p>Last Modified Date: <%= new Date(article.modification_date).toLocaleString() %></p>
+
+  <form action="/author/update-article/<%= article.article_id %>" method="POST">
+    <label for="title">Title:</label>
+    <input type="text" name="title" id="title" value="<%= article.title %>" required>
+
+    <label for="subtitle">Subtitle:</label>
+    <input type="text" name="subtitle" id="subtitle" value="<%= article.subtitle %>" required>
+
+    <label for="content">Content:</label>
+    <textarea name="content" id="content" rows="8" required><%= article.content %></textarea>
+
+    <button type="submit">Update</button>
+
+    <form class = "likes" action="/author/home" method="GET">
+      <button type="submit" class="open-button">Back</button>
+    </form>
+  </form>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+      font-weight: bold;
+    }
+
+    p {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 4px;
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: #555;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 15px;
+    }
+
+    button[type="submit"] {
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #45a049;
+    }
+
+    .container .button-group form button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</body>
+</html>
